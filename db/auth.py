@@ -56,3 +56,9 @@ def login(data: LoginData, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
     return {"access_token": user.id, "message": "Login successful"}
+
+# /users route to get users by role
+@router.get("/users")
+def get_users_by_role(role: str, db: Session = Depends(get_db)):
+    users = db.query(models.User).filter(models.User.role == role).all()
+    return users
